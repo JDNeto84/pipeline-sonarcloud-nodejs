@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const { exec } = require('child_process');  // Importa o módulo child_process para execução de comandos
 
 const app = express();
 const port = 3000;
@@ -12,9 +13,18 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.get('/unsafe', (req, res) => {
-  const userProvidedData = req.query.data;
-  res.send(`You provided: ${userProvidedData}`);
+app.get('/vulnerable', (req, res) => {
+  
+  const userInput = req.query.input;
+
+  exec(`echo ${userInput}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error.message}`);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    res.send(`Command Output: ${stdout}`);
+  });
 });
 
 if (require.main === module) {
@@ -24,4 +34,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-
