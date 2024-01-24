@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: app-nodejs
-    command: sh -c "npm init -y && npm install mysql express jest supertest --save && node app.js"  
+    command: sh -c "npm init -y && npm install mysql express helmet jest supertest --save && node app.js"  
     volumes:
       - ./app:/usr/src/app
     ports:
