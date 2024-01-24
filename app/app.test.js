@@ -9,7 +9,11 @@ describe('Test the app Node.js', () => {
   });
 
   afterAll((done) => {
-    server.close(done);
+    if (server) {
+      server.close(done);
+    } else {
+      done();
+    }
   });
 
   it('Should return the message "Hello, World!"', async () => {
