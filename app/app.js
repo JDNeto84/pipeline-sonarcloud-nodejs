@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const { exec } = require('child_process');
+const { exec } = require('child_process'); 
 
 const app = express();
 const port = 3000;
@@ -9,8 +9,12 @@ app.disable('x-powered-by');
 
 app.use(helmet());
 
-app.get('/vulnerable', (req, res) => {
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
 
+app.get('/vulnerable', (req, res) => {
+  
   const userInput = req.query.input;
 
   exec(`echo ${userInput}`, (error, stdout, stderr) => {
